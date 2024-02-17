@@ -1,6 +1,6 @@
+import { type ProductItemType } from "@/ui/types";
 import { TitleSection } from "@/ui/atoms/TitleSection";
 import { ProductList } from "@/ui/organisms/ProductList";
-import { type ProductItemType } from "@/ui/types";
 
 const products: ProductItemType[] = [
 	{
