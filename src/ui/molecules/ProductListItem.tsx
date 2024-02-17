@@ -1,4 +1,4 @@
-import { ProductItemType } from "../types";
+import { type ProductItemType } from "../types";
 import { ProductDescription } from "@/ui/atoms/ProductDescription";
 import { ProductImageCover } from "@/ui/atoms/ProductImageCover";
 
