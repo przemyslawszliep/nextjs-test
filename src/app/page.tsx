@@ -1,44 +1,57 @@
-
+import { TitleSection } from "@/ui/atoms/TitleSection";
 import { ProductList } from "@/ui/organisms/ProductList";
 import { type ProductItemType } from "@/ui/types";
 
-const products = ProductItemType[] = [
+const products: ProductItemType[] = [
 	{
 		id: "1",
-		category: "electronics",
-		name: "iPhone 12",
-		price: 799,
+		name: "Koszulka",
+		category: "Odzież",
+		price: 2012,
 		coverImage: {
-			src: "https://tailwindui.com/img/ecommerce-images/product-page-04-detail-product-shot-01.jpg",
-			alt: "iPhone 12"
-		}
+			imageSrc: "https://picsum.photos/400/300",
+			altText: "Koszulka",
+		},
 	},
 	{
 		id: "2",
-		category: "electronics",
-		name: "iPhone 12 Pro",
-		price: 999,
+		name: "Spodnie",
+		category: "Odzież",
+		price: 4000,
 		coverImage: {
-			src: "https://tailwindui.com/img/ecommerce-images/product-page-04-detail-product-shot-01.jpg",
-			alt: "iPhone 12 Pro"
-		}
+			imageSrc: "https://picsum.photos/400/300",
+			altText: "Spodnie",
+		},
 	},
 	{
 		id: "3",
-		category: "electronics",
-		name: "iPhone 12 Pro Max",
-		price: 1099,
+		name: "Buty",
+		category: "Obuwie",
+		price: 6246,
 		coverImage: {
-			src: "https://tailwindui.com/img/ecommerce-images/product-page-04-detail-product-shot-01.jpg",
-			alt: "iPhone 12 Pro Max"
-		}
-	}
-]
+			imageSrc: "https://picsum.photos/400/300",
+			altText: "Buty",
+		},
+	},
+	{
+		id: "4",
+		name: "Koszulka",
+		category: "Odzież",
+		price: 6023,
+		coverImage: {
+			imageSrc: "https://picsum.photos/400/300",
+			altText: "Koszulka",
+		},
+	},
+];
 
 export default function Home() {
 	return (
-		<section className="flex flex-col items-center justify-center">
-			<ProductList products={products}/>
-x		</section>
+		<main>
+			<section className="mx-auto flex min-h-screen max-w-7xl flex-col items-center justify-center">
+				<TitleSection titleText="Najlepsze produkty" />
+				<ProductList products={products} />
+			</section>
+		</main>
 	);
 }
