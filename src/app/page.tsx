@@ -47,11 +47,9 @@ const products: ProductItemType[] = [
 
 export default function Home() {
 	return (
-		<main>
-			<section className="mx-auto flex min-h-screen max-w-7xl flex-col items-center justify-center">
-				<TitleSection titleText="Najlepsze produkty" />
-				<ProductList products={products} />
-			</section>
-		</main>
+		<div>
+			<TitleSection titleText="Najlepsze produkty" />
+			<ProductList products={products} />
+		</div>
 	);
 }
