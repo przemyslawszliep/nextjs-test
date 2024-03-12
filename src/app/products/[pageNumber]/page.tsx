@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
+import React, { Suspense } from "react";
 import { TitleSection } from "@/ui/atoms/TitleSection";
 import { ProductList } from "@/ui/organisms/ProductList";
 import { getProductsList } from "@/api/products";
 import { Pagination } from "@/ui/molecules/Pagination";
 import { countPagesAndConvertToArray } from "@/utils";
+import { Loader } from "@/ui/atoms/Loader";
+
 
 export const metadata: Metadata = {
 	title: "Products",
@@ -31,7 +34,9 @@ const Page = async ({ params }: ProductsPageProps) => {
 	return (
 		<>
 			<TitleSection titleText="Najlepsze produkty" />
-			<ProductList products={products} />
+			<Suspense fallback={<Loader />}>
+				<ProductList products={products} />
+			</Suspense>
 			<Pagination
 				fullNumberOfProducts={100}
 				productsPerPage={20}
