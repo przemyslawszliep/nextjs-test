@@ -11,8 +11,8 @@ export const generateMetadata = async ({
 }): Promise<Metadata> => {
 	const product = await getProductById(params.productId);
 	return {
-		title: `Product: ${product?.name ?? ''}`,
-		description: product ? product.description : '',
+		title: `Product: ${product?.name ?? ""}`,
+		description: product ? product.description : "",
 	};
 };
 
@@ -22,6 +22,11 @@ export default async function SingleProductPage({
 	params: { productId: string };
 }) {
 	const product = await getProductById(params.productId);
+
+	if (!product) {
+		return <div>Product not found</div>;
+	}
+
 	return (
 		<article className="flex w-full items-start justify-between gap-4">
 			<ProductImageCover
