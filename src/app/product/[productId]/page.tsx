@@ -24,7 +24,7 @@ export default async function SingleProductPage({
 	const product = await getProductById(params.productId);
 
 	if (!product) {
-		return <div>Product not found</div>;
+		return <h1>Product not found</h1>;
 	}
 
 	return (
