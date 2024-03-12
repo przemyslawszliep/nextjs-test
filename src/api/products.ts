@@ -43,14 +43,28 @@ export const getProductsList = async (
 };
 
 export const getProductById = async (id: string) => {
-	const url = new URL(BASE_URL);
-	url.pathname += "/" + encodeURIComponent(`${id}`);
-	const res = await fetch(url.toString());
-	if (!res.ok) {
-		return null;
-	}
-	const productResponse = (await res.json()) as ProductResponseItem;
-	return productResponseItemToProductItemType(productResponse);
+    const url = new URL(BASE_URL);
+    url.pathname += `/${encodeURIComponent(id)}`;
+    try {
+        const res = await fetch(url.toString());
+        if (!res.ok) {
+        
+            console.error(`Failed to fetch product with ID ${id}: ${res.status} ${res.statusText}`);
+            return null;
+        }
+        try {
+            const productResponse = (await res.json()) as ProductResponseItem;
+            return productResponseItemToProductItemType(productResponse);
+        } catch (jsonError) {
+        
+            console.error(`Error parsing JSON response for product with ID ${id}: ${jsonError}`);
+            return null;
+        }
+    } catch (networkError) {
+    
+        console.error(`Network error while fetching product with ID ${id}: ${networkError}`);
+        return null;
+    }
 };
 
 const productResponseItemToProductItemType = (
