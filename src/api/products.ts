@@ -35,7 +35,7 @@ export const getProductsList = async (
 
 	const res = await fetch(url.toString());
 	if (!res.ok) {
-		return [] as Product[];
+		return [] as ProductItemType[];
 	}
 	const result = (await res.json()) as ProductResponseItem[];
 
