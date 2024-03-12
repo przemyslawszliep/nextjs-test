@@ -1,14 +1,16 @@
 type ProductImageCoverProps = {
 	imageSrc: string;
 	altText: string;
+	classes: string;
 };
 
 export const ProductImageCover = ({
 	imageSrc,
 	altText,
+	classes
 }: ProductImageCoverProps) => {
 	return (
-		<div className="relative h-48 w-full mb-4">
+		<div className={classes}>
 			<img
 				src={imageSrc}
 				alt={altText}

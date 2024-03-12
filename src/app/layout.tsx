@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
-
-const inter = Inter({ subsets: ["latin"] });
+import { ActiveLink } from "@/ui/atoms/ActiveLink";
 
 export const metadata: Metadata = {
 	title: "Next.js Moja pierwsza strona",
@@ -16,12 +14,28 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="pl">
-			<body className={inter.className}>
+			<body className="bg-slate-100">
 				<main>
+					<nav role="navigation" className="flex justify-center gap-2 py-6">
+						<ActiveLink
+							exact={false}
+							aria-description="Home"
+							href={"/"}
+						>
+							<span className="text-blue-300">Home</span>
+						</ActiveLink>
+						<ActiveLink
+							exact={false}
+							aria-description="All"
+							href={"/products"}
+						>
+							<span className="text-blue-300">Products</span>
+						</ActiveLink>
+					</nav>
 					<section className="mx-auto flex min-h-screen max-w-7xl flex-col items-center justify-center">
 						{children}
 					</section>
-					<footer className="text-center text-sm text-orange-500">
+					<footer className="mt-8 text-center text-sm text-orange-500">
 						<p>
 							© {new Date().getFullYear()}{" "}
 							<a href="https://www.example.com">Moja firma</a>
