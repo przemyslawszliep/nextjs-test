@@ -1,12 +1,16 @@
+import { getProductsList } from "@/api/products";
 import { TitleSection } from "@/ui/atoms/TitleSection";
+import { ProductList } from "@/ui/organisms/ProductList";
 
-export default function Home() {
+const Home = async () => {
+	const products = await getProductsList(8, 1);
+
 	return (
-		<div>
-			<TitleSection titleText="Strona główna" />
-			<p className="my-4 text-center text-green-700">
-				Witamy na naszej nowej stronie głównej w Next.js
-			</p>
-		</div>
+		<>
+			<TitleSection titleText="Polecane produkty" />
+			<ProductList products={products} />
+		</>
 	);
-}
+};
+
+export default Home;
