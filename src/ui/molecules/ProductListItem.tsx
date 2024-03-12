@@ -12,7 +12,7 @@ export const ProductListItem = ({
 }: ProductListItemProps) => {
 	return (
 		<li className="box-shadow rounded-lg bg-white p-4">
-			<Link href={`/product/${product.id}`}>
+			<Link prefetch={true} href={`/product/${product.id}`}>
 				<article className="flex flex-col items-center justify-center">
 					<ProductImageCover
 						imageSrc={product.coverImage.imageSrc}
