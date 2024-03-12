@@ -29,7 +29,7 @@ export default function RootLayout({
 							aria-description="All"
 							href={"/products"}
 						>
-							<span className="text-blue-300">Products</span>
+							<span className="text-blue-300">All</span>
 						</ActiveLink>
 					</nav>
 					<section className="mx-auto flex min-h-screen max-w-7xl flex-col items-center justify-center">
