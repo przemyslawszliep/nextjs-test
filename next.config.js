@@ -5,15 +5,28 @@ const nextConfig = {
 		typedRoutes: true,
 		mdxRs: true,
 	},
-	async redirects(){
-		return[
+	images: {
+		remotePatterns: [
 			{
-				source:'/products',
-				destination:'/products/1',
+				protocol: "https",
+				hostname: "static-ourstore.hyperfunctor.com",
+			},
+		],
+	},
+	async redirects() {
+		return [
+			{
+				source: "/products",
+				destination: "/products/1",
 				permanent: true,
-			}
-		]
-	}
+			},
+			{
+				source: "/categories/:categorySlug",
+				destination: "/categories/:categorySlug/1",
+				permanent: true,
+			},
+		];
+	},
 };
 
 const withMDX = require("@next/mdx")();

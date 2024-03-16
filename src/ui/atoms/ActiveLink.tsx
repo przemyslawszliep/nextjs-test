@@ -34,7 +34,7 @@ export function ActiveLink<T>(props: ActiveLinkProps<T>) {
 					{
 						underline: currentLink === href,
 					},
-					"font-bold uppercase decoration-blue-600 decoration-2 hover:text-blue-600",
+					"uppercase decoration-blue-600 decoration-2 hover:text-blue-600",
 				)}
 			>
 				{children}
