@@ -13,27 +13,6 @@ export const HeaderMenu = () => {
 			>
 				<span className="text-blue-300">All</span>
 			</ActiveLink>
-			<ActiveLink
-				exact={false}
-				aria-description="T-shirts"
-				href={"/t-shirts"}
-			>
-				<span>T-Shirts</span>
-			</ActiveLink>
-			<ActiveLink
-				exact={false}
-				aria-description="Hoodies"
-				href={"/hoodies"}
-			>
-				<span>Hoodies</span>
-			</ActiveLink>
-			<ActiveLink
-				exact={false}
-				aria-description="Accessories"
-				href={"/accessories"}
-			>
-				<span>Accessories</span>
-			</ActiveLink>
 		</nav>
 	);
 };
