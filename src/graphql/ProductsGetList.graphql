@@ -1,0 +1,8 @@
+query ProductsGetList($take: Int!, $skip: Int!, $search: String) {
+	products(take: $take, skip: $skip, search: $search) {
+		data {
+			...ProductsListItem
+		}
+		...ProductsListCount
+	}
+}
