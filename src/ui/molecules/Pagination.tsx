@@ -1,121 +1,58 @@
-"use client";
 import { type Route } from "next";
-import React, { useEffect, useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
-import { PaginationButton } from "@/ui/atoms/PaginationButton";
-import { PaginationPageNumber } from "@/ui/atoms/PaginationPageNumber";
-import { countPagesAndConvertToArray } from "@/utils";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { ActiveLink } from "@/ui/atoms/ActiveLink";
 
 type PaginationProps = {
-	fullNumberOfProducts: number;
-	productsPerPage: number;
-	currentPage: number;
+	pageNumber: number;
+	totalPages: number;
+	url: Route;
 };
-
-type paginationState = {
-	currentPage: number;
-	maxPages: number;
-	minPageForPagination: number;
-	maxPageForPagination: number;
-	pages: number[];
-};
-
-const BASE_URL =
-	typeof window !== "undefined"
-		? `${window.location.origin}/products/`
-		: "";
 
 export const Pagination = ({
-	currentPage,
-	fullNumberOfProducts,
-	productsPerPage,
+	pageNumber = 1,
+	totalPages,
+	url,
 }: PaginationProps) => {
-	const [paginationState, setPaginationState] =
-		useState<paginationState>({
-			currentPage,
-			maxPages: Math.ceil(fullNumberOfProducts / productsPerPage),
-			pages: [],
-			minPageForPagination: 1,
-			maxPageForPagination: 10,
-		});
-	const router = useRouter();
-
-	const path = usePathname().split("/");
-
-	useEffect(() => {
-		setPaginationState(({ currentPage, maxPages }) => {
-			const pageNumber = Number(path[path.length - 1]) ?? 1;
-			const minPage = currentPage - 5;
-			const maxPage = currentPage + 5;
-			const pages =
-				countPagesAndConvertToArray(
-					fullNumberOfProducts,
-					productsPerPage,
-				) ?? [];
-			return {
-				currentPage: pageNumber,
-				pages,
-				maxPages,
-				minPageForPagination: minPage < 1 ? 0 : minPage,
-				maxPageForPagination:
-					maxPage > Number(pages[pages.length - 1])
-						? Number(pages[pages.length - 1])
-						: currentPage + 5,
-			};
-		});
-	}, []);
-
-	const nextPage = () => {
-		const { maxPageForPagination, currentPage: currentPageInState } =
-			paginationState;
-		const nextPage =
-			currentPageInState + 1 > maxPageForPagination
-				? currentPageInState
-				: currentPageInState + 1;
-		const url = new URL(
-			nextPage.toString(),
-			BASE_URL,
-		).toString() as Route;
-		router.push(url);
-	};
-
-	const prevPage = () => {
-		const { minPageForPagination, currentPage: currentPageInState } =
-			paginationState;
-		const prevPage =
-			currentPageInState - 1 < minPageForPagination + 1
-				? currentPageInState
-				: currentPageInState - 1;
-		const url = new URL(
-			prevPage.toString(),
-			BASE_URL,
-		).toString() as Route;
-		router.push(url);
-	};
 	return (
-		<div
+		<article
 			aria-label="pagination"
-			className="my-6 flex w-full items-center justify-center gap-2"
+			className="mt-12 flex w-full items-center justify-center gap-12"
 		>
-			<PaginationButton onClick={prevPage}>Prev</PaginationButton>
-			<div className="flex flex-row gap-2">
-				{paginationState.pages
-					.map((page, index) => (
-						<ActiveLink
-							key={index}
-							href={("/products/" + page) as Route}
-							exact={true}
-						>
-							<PaginationPageNumber>{page}</PaginationPageNumber>
-						</ActiveLink>
-					))
-					.slice(
-						paginationState.minPageForPagination,
-						paginationState.maxPageForPagination,
-					)}
+			<ActiveLink
+				className=""
+				activeClassName=""
+				href={
+					pageNumber === 1
+						? `${url}`
+						: (`${url}/${pageNumber - 1}` as Route)
+				}
+			>
+				<ChevronLeft size={36} color="black" />
+			</ActiveLink>
+			<div className="flex gap-4 rounded-lg px-2 text-white">
+				{Array.from({ length: totalPages }, (_, i) => (
+					<ActiveLink
+						activeClassName={
+							i === pageNumber - 1 ? "bg-blue-600 text-white" : ""
+						}
+						key={i}
+						href={i === 0 ? `${url}` : (`${url}/${i + 1}` as Route)}
+					>
+						{i + 1}
+					</ActiveLink>
+				))}
 			</div>
-			<PaginationButton onClick={nextPage}>Next</PaginationButton>
-		</div>
+			<ActiveLink
+				className=""
+				activeClassName=""
+				href={
+					pageNumber === totalPages
+						? (`${url}/${totalPages}` as Route)
+						: (`${url}/${pageNumber + 1}` as Route)
+				}
+			>
+				<ChevronRight size={36} color="black" />
+			</ActiveLink>
+		</article>
 	);
 };

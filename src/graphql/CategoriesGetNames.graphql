@@ -1,0 +1,8 @@
+query CategoriesGetNames {
+	categories {
+		data {
+			name
+			slug
+		}
+	}
+}

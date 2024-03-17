@@ -1,60 +1,39 @@
 "use client";
-import { type Route } from "next";
-import React, { type ReactNode } from "react";
-import Link from "next/link";
+
+import Link, { type LinkProps } from "next/link";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
+import { type Route } from "next";
 
-type ActiveLinkProps<_> = {
-	href: Route;
-	children?: ReactNode;
-	exact: boolean;
-	"aria-description"?: string;
-};
+type ActiveLinkProps<T extends string> = {
+	activeClassName?: string;
+	className?: string;
+	children: React.ReactNode;
+	href: Route<T>;
+	exact?: boolean;
+} & Omit<LinkProps<T>, "href">;
 
-export function ActiveLink<T>(props: ActiveLinkProps<T>) {
-	const { children, exact, href } = props;
-
-	let currentLink = usePathname();
-
-	if (!exact) {
-		const link = currentLink.split("/");
-		link.splice(2);
-		currentLink = link.join("/");
-	}
-
-	if (currentLink === href) {
-		return (
-			<Link
-				aria-description={props["aria-description"]}
-				href={href}
-				aria-current="true"
-				role="link"
-				className={clsx(
-					{
-						underline: currentLink === href,
-					},
-					"uppercase decoration-blue-600 decoration-2 hover:text-blue-600",
-				)}
-			>
-				{children}
-			</Link>
-		);
-	}
+export const ActiveLink = <T extends string>({
+	activeClassName = "bg-black text-white",
+	className = "rounded-lg px-4 py-1 text-black transition-all duration-300 hover:bg-black hover:text-white",
+	children,
+	exact,
+	href,
+	...props
+}: ActiveLinkProps<T>) => {
+	const pathname = usePathname();
+	const isActive = exact ? pathname === href : pathname.startsWith(href as string);
 
 	return (
 		<Link
-			aria-description={props["aria-description"]}
 			href={href}
-			role="link"
-			className={clsx(
-				{
-					underline: currentLink === href,
-				},
-				"font-bold uppercase decoration-amber-300  decoration-2",
-			)}
+			className={clsx(className, {
+				[activeClassName]: isActive,
+			})}
+			aria-current={isActive ? "page" : undefined}
+			{...props}
 		>
 			{children}
 		</Link>
 	);
-}
+};

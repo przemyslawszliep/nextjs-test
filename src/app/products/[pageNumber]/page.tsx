@@ -13,7 +13,10 @@ type ProductsPageProps = {
 export async function generateStaticParams() {
 	const products = await getProductsList(40, 0);
 	const totalPages = Math.ceil(products.data.length / 8);
-	const paths = Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => ({
+	const paths = Array.from(
+		{ length: totalPages },
+		(_, i) => i + 1,
+	).map((page) => ({
 		params: { page: [String(page)] },
 	}));
 	return paths;
@@ -28,8 +31,12 @@ export const metadata: Metadata = {
 	},
 };
 
-export default async function ProductsPage({ params }: ProductsPageProps) {
-	const offset = params.pageNumber ? Number(params.pageNumber[0]) * 8 - 8 : 0;
+export default async function ProductsPage({
+	params,
+}: ProductsPageProps) {
+	const offset = params.pageNumber
+		? Number(params.pageNumber[0]) * 8 - 8
+		: 0;
 	const products = await getProductsList(8, offset);
 	const paramsPageLength = params?.pageNumber?.length;
 
@@ -41,12 +48,12 @@ export default async function ProductsPage({ params }: ProductsPageProps) {
 		<section>
 			<ProductList products={products.data || []} />
 			<Pagination
- 				fullNumberOfProducts={100}
- 				productsPerPage={20}
- 				currentPage={Number(params.pageNumber)}
+				url="/products"
+				pageNumber={
+					params.pageNumber ? Number(params.pageNumber[0]) : 1
+				}
+				totalPages={Math.ceil(products.meta.total / 8)}
 			/>
 		</section>
 	);
 }
-
-
