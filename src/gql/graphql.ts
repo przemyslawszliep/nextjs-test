@@ -305,6 +305,11 @@ export type CollectionsGetListQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type CollectionsGetListQuery = { collections: { data: Array<{ description: string, id: string, name: string, slug: string }> } };
 
+export type CollectionGetNamesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CollectionGetNamesQuery = { collections: { data: Array<{ name: string, slug: string }> } };
+
 export type CollectionListItemFragment = { description: string, id: string, name: string, slug: string };
 
 export type ProductGetItemByIdQueryVariables = Exact<{
@@ -478,6 +483,16 @@ export const CollectionsGetListDocument = new TypedDocumentString(`
   name
   slug
 }`) as unknown as TypedDocumentString<CollectionsGetListQuery, CollectionsGetListQueryVariables>;
+export const CollectionGetNamesDocument = new TypedDocumentString(`
+    query CollectionGetNames {
+  collections {
+    data {
+      name
+      slug
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CollectionGetNamesQuery, CollectionGetNamesQueryVariables>;
 export const ProductGetItemByIdDocument = new TypedDocumentString(`
     query ProductGetItemById($id: ID!) {
   product(id: $id) {

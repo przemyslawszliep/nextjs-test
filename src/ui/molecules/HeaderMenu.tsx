@@ -4,9 +4,11 @@ import { ActiveLink } from "../atoms/ActiveLink";
 
 import { Paths } from "@/utils/paths";
 import { getProductsCategoriesNames } from "@/api/categories";
+import { getCollectionNames } from "@/api/collections";
 
 export const HeaderMenu = async () => {
 	const categoriesNames = await getProductsCategoriesNames();
+	const collectionNames = await getCollectionNames();
 
 	const categoryLinks = categoriesNames.data.map((item) => {
 		return {
@@ -16,10 +18,19 @@ export const HeaderMenu = async () => {
 		};
 	});
 
+	const collectionLinks = collectionNames.data.map((item) => {
+		return {
+			name: item.name,
+			href: `/collections/${item.slug}`,
+			exact: false,
+		};
+	});
+
 	const navigationLinks = [
 		{ name: "Home", href: Paths.HOME, exact: true },
 		{ name: "All", href: Paths.PRODUCTS, exact: false },
-		...categoryLinks.reverse(),
+		...collectionLinks,
+		...categoryLinks,
 	];
 
 	return (
