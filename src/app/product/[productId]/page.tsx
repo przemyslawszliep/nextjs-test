@@ -5,6 +5,8 @@ import { TitleSection } from "@/ui/atoms/TitleSection";
 import { ProductImageCover } from "@/ui/atoms/ProductImageCover";
 import { Loader } from "@/ui/atoms/Loader";
 import { getProductById } from "@/api/product";
+import { getRelatedProducts } from "@/api/products";
+import { ProductList } from "@/ui/organisms/ProductList";
 
 type Params = {
 	params: {
@@ -37,6 +39,10 @@ export const generateMetadata = async ({
 export default async function ProductPage({ params }: Params) {
 	const data = await getProductById(params.productId);
 
+	const relatedProducts = await getRelatedProducts(data.product);
+
+	console.log(relatedProducts);
+
 	if (!data.product) return <p>Product not found.</p>;
 
 	return (
@@ -53,6 +59,18 @@ export default async function ProductPage({ params }: Params) {
 						<SingleProductDescription product={data.product} />
 					</div>
 				</article>
+			</Suspense>
+			<Suspense
+				key="relatedProducts"
+				data-testid="related-products"
+				fallback={<Loader />}
+			>
+				<div className="my-8 text-center">
+					<h2 className="mb-8 text-3xl font-semibold">
+						Related Products
+					</h2>
+					<ProductList products={relatedProducts} />
+				</div>
 			</Suspense>
 		</section>
 	);

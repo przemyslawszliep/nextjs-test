@@ -1,5 +1,9 @@
 import { loadEnvConfig } from "@next/env";
-import { ProductsGetListDocument } from "@/gql/graphql";
+import {
+	ProductsGetListDocument,
+	type ProductsListItemFragment,
+	RelatedProductsListDocument,
+} from "@/gql/graphql";
 import { executeGraphQL } from "@/utils/graphql";
 
 loadEnvConfig(process.cwd());
@@ -18,4 +22,28 @@ export const getProductsList = async (take: number, skip: number) => {
 	}
 
 	return graphqlResponse.products;
+};
+
+export const getRelatedProducts = async (
+	product: ProductsListItemFragment,
+) => {
+	if (!product) return;
+
+	const graphqlResponse = await executeGraphQL(
+		RelatedProductsListDocument,
+	);
+
+	if (!graphqlResponse) {
+		throw new Error("Failed to fetch related products");
+	}
+
+	const relatedProducts = graphqlResponse.products.data.filter(
+		(p: ProductsListItemFragment) => {
+			return p.categories.some(
+				(category) => category.name === product.categories[0]?.name,
+			);
+		},
+	);
+
+	return relatedProducts;
 };

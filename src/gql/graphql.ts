@@ -332,6 +332,11 @@ export type ProductsGetListQueryVariables = Exact<{
 
 export type ProductsGetListQuery = { products: { data: Array<{ id: string, name: string, price: number, description: string, rating?: number | null, images: Array<{ url: string }>, categories: Array<{ name: string }> }>, meta: { total: number, count: number } } };
 
+export type RelatedProductsListQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type RelatedProductsListQuery = { products: { data: Array<{ id: string, name: string, price: number, description: string, rating?: number | null, images: Array<{ url: string }>, categories: Array<{ name: string }> }>, meta: { total: number, count: number } } };
+
 export class TypedDocumentString<TResult, TVariables>
   extends String
   implements DocumentTypeDecoration<TResult, TVariables>
@@ -540,3 +545,31 @@ fragment ProductsListItem on Product {
     name
   }
 }`) as unknown as TypedDocumentString<ProductsGetListQuery, ProductsGetListQueryVariables>;
+export const RelatedProductsListDocument = new TypedDocumentString(`
+    query RelatedProductsList {
+  products {
+    data {
+      ...ProductsListItem
+    }
+    ...ProductsListCount
+  }
+}
+    fragment ProductsListCount on ProductList {
+  meta {
+    total
+    count
+  }
+}
+fragment ProductsListItem on Product {
+  id
+  name
+  price
+  description
+  rating
+  images {
+    url
+  }
+  categories {
+    name
+  }
+}`) as unknown as TypedDocumentString<RelatedProductsListQuery, RelatedProductsListQueryVariables>;

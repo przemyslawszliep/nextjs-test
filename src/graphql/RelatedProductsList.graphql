@@ -1,0 +1,8 @@
+query RelatedProductsList {
+	products {
+		data {
+			...ProductsListItem
+		}
+		...ProductsListCount
+	}
+}
