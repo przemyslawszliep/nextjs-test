@@ -7,7 +7,6 @@ import { Loader } from "@/ui/atoms/Loader";
 import { getProductById } from "@/api/product";
 import { getRelatedProducts } from "@/api/products";
 import { ProductList } from "@/ui/organisms/ProductList";
-import { type ProductsListItemFragment } from "@/gql/graphql";
 
 type Params = {
 	params: {
@@ -39,11 +38,10 @@ export const generateMetadata = async ({
 
 export default async function ProductPage({ params }: Params) {
 	const data = await getProductById(params.productId);
-	const relatedProducts = await getRelatedProducts(
-		data.product as ProductsListItemFragment,
-	);
 
 	if (!data.product) return <p>Product not found.</p>;
+
+	const relatedProducts = await getRelatedProducts(data.product);
 
 	return (
 		<section className="md:mx-24">
@@ -62,15 +60,16 @@ export default async function ProductPage({ params }: Params) {
 			</Suspense>
 			<Suspense
 				key="relatedProducts"
-				data-testid="related-products"
 				fallback={<Loader />}
 			>
-				<div className="my-8 text-center">
-					<h2 className="mb-8 text-3xl font-semibold">
-						Related Products
-					</h2>
-					<ProductList products={relatedProducts || []} />
-				</div>
+				{relatedProducts && (
+					<div className="my-8 text-center" data-testid="related-products">
+						<h2 className="mb-8 text-3xl font-semibold">
+							Related Products
+						</h2>
+						<ProductList products={relatedProducts} />
+					</div>
+				)}
 			</Suspense>
 		</section>
 	);

@@ -34,7 +34,7 @@ export default async function CategoriesNamePage({
 	if (!category || category.products.length === 0)
 		return <p>No products found.</p>;
 
-	const take = 3;
+	const take = 4;
 	const pageNumber = params.pageNumber
 		? Number(params.pageNumber[0])
 		: 1;
