@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Suspense } from "react";
 import { Logo } from "../atoms/Logo";
 import { HeaderMenu } from "../molecules/HeaderMenu";
 import { Search } from "../atoms/Search";
@@ -9,7 +10,9 @@ export const Header = () => {
 			<Link href="/">
 				<Logo />
 			</Link>
-			<Search />
+			<Suspense fallback={<div>Loading...</div>}>
+				<Search />
+			</Suspense>
 			<HeaderMenu />
 		</header>
 	);

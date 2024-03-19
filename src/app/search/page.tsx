@@ -24,13 +24,14 @@ export default async function SearchPage({
 }: SearchPageProps) {
 	const products = await getSearchProducts(searchParams.query);
 
-	if (!products || products.data.length === 0)
-		return <p>No products found.</p>;
+	if (!products) return <p>No products found.</p>;
 
 	return (
 		<section>
-            <TitleSection titleText={`Search results for: ${searchParams.query}`} />
 			<Suspense key="searchPage" fallback={<Loader />}>
+				<TitleSection
+					titleText={`Search results for: ${searchParams.query}`}
+				/>
 				<ProductList products={products.data} />
 			</Suspense>
 		</section>

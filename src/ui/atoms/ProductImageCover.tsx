@@ -1,3 +1,5 @@
+import NextImage from "next/image";
+
 type ProductImageCoverProps = {
 	src: string;
 	alt: string;
@@ -7,14 +9,16 @@ type ProductImageCoverProps = {
 export const ProductImageCover = ({
 	src,
 	alt,
-	classes
+	classes,
 }: ProductImageCoverProps) => {
 	return (
 		<div className={classes}>
-			<img
+			<NextImage
 				src={src}
 				alt={alt}
-                className="object-cover h-full w-full rounded-lg hover:scale-105 transition-transform duration-300 ease-in-out cursor-pointer"
+				width={500}
+				height={500}
+				className="h-full w-full cursor-pointer rounded-lg object-cover transition-transform duration-300 ease-in-out hover:scale-105"
 			/>
 		</div>
 	);

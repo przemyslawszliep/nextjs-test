@@ -54,7 +54,7 @@ export const Search = () => {
 						"?" +
 						createQueryString("query", searchValue)) as Route
 				}
-				className="flex h-8 h-full w-8 cursor-pointer items-center justify-center border-l bg-slate-500 hover:bg-slate-800"
+				className="flex h-8 w-8 cursor-pointer items-center justify-center border-l bg-slate-500 hover:bg-slate-800"
 			>
 				<SearchIcon color="white" size={16} />
 			</Link>
