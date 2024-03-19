@@ -25,7 +25,7 @@ export const Search = () => {
 		[searchParams],
 	);
 
-	const debouncedSearch: string = DebounceUtility(searchValue, 500);
+	const debouncedSearch: string = DebounceUtility(searchValue, 1500);
 
 	const handleInputChange = (
 		event: React.ChangeEvent<HTMLInputElement>,
