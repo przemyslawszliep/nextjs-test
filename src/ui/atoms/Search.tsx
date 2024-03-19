@@ -11,7 +11,6 @@ export const Search = () => {
 	const router = useRouter();
 
 	const handleSearch = (searchTearms: string) => {
-		console.log(searchTearms);
 		const params = new URLSearchParams(searchParams);
 		if (searchTearms) {
 			params.set("query", searchTearms);
@@ -38,7 +37,7 @@ export const Search = () => {
 					<SearchIcon className="h4 absolute left-3 top-2 w-4 text-gray-400" />
 					<input
 						data-testid="search-navbar-input"
-						type="text"
+						type="search"
 						placeholder="Search"
 						className="w-64 rounded border border-gray-300 p-2 pl-10"
 						onChange={(e) => {
