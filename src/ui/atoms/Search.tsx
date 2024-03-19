@@ -11,9 +11,7 @@ export const Search = () => {
 	const router = useRouter();
 	const searchParams = useSearchParams();
 	const urlQueryParamValue = searchParams.get("query")?.toString();
-	const [searchValue, setSearchValue] = useState<string>(
-		urlQueryParamValue || "",
-	);
+	const [searchValue, setSearchValue] = useState<string>(urlQueryParamValue || "");
 
 	const createQueryString = useCallback(
 		(name: string, value: string) => {
@@ -25,12 +23,13 @@ export const Search = () => {
 		[searchParams],
 	);
 
-	const debouncedSearch: string = DebounceUtility(searchValue, 1500);
+	const debouncedSearch = DebounceUtility(searchValue, 1500);
 
-	const handleInputChange = (
-		event: React.ChangeEvent<HTMLInputElement>,
-	) => {
+	const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setSearchValue(event.target.value);
+		if (event.target.value.length === 0) {
+			router.push("/products");
+		}
 	};
 
 	useEffect(() => {
@@ -40,24 +39,20 @@ export const Search = () => {
 	}, [debouncedSearch, router]);
 
 	return (
-		<div className="ml-8 mr-auto flex items-center justify-center gap-2 overflow-hidden rounded-md border border-slate-500 bg-white">
+		<div className="flex items-center justify-center gap-2 rounded-md border bg-white">
+			<Link
+				href={(`/search` + "?" + createQueryString("query", searchValue)) as Route}
+				className="flex h-full w-[40px] cursor-pointer items-center justify-center border-r bg-white"
+			>
+				<SearchIcon color="gray" size={16} />
+			</Link>
 			<input
-				className="w-42 overflow-hiddentext-sm rounded-md  p-1 outline-none"
+				className="w-42 rounded-md p-1 text-sm outline-none"
 				type="search"
 				placeholder="Search..."
 				value={searchValue}
 				onChange={handleInputChange}
 			/>
-			<Link
-				href={
-					(`/search` +
-						"?" +
-						createQueryString("query", searchValue)) as Route
-				}
-				className="flex h-8 w-8 cursor-pointer items-center justify-center border-l bg-slate-500 hover:bg-slate-800"
-			>
-				<SearchIcon color="white" size={16} />
-			</Link>
 		</div>
 	);
 };
