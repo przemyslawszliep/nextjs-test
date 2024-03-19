@@ -3,6 +3,7 @@ import {
 	ProductsGetListDocument,
 	type ProductsListItemFragment,
 	RelatedProductsListDocument,
+	ProductGetSearchItemsDocument,
 } from "@/gql/graphql";
 import { executeGraphQL } from "@/utils/graphql";
 
@@ -46,4 +47,19 @@ export const getRelatedProducts = async (
 	);
 
 	return relatedProducts;
+};
+
+export const getSearchProducts = async (search: string) => {
+	const graphqlResponse = await executeGraphQL(
+		ProductGetSearchItemsDocument,
+		{
+			search,
+		},
+	);
+
+	if (!graphqlResponse) {
+		throw new Error("Failed to fetch products");
+	}
+
+	return graphqlResponse.products;
 };
