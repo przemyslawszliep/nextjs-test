@@ -1,72 +1,52 @@
 "use client";
 
+import { useSearchParams, useRouter } from "next/navigation";
 import { SearchIcon } from "lucide-react";
-import { useCallback, useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
-import Link from "next/link";
 import { type Route } from "next";
-import { DebounceUtility } from "@/utils/debounceUtility";
+import { useDebounceCallback } from "usehooks-ts";
+import { Suspense } from "react";
 
 export const Search = () => {
-	const router = useRouter();
 	const searchParams = useSearchParams();
-	const urlQueryParamValue = searchParams.get("query")?.toString();
-	const [searchValue, setSearchValue] = useState<string>(
-		urlQueryParamValue || "",
-	);
+	const router = useRouter();
 
-	const createQueryString = useCallback(
-		(name: string, value: string) => {
-			const params = new URLSearchParams(searchParams.toString());
-			params.set(name, value);
-
-			return params.toString();
-		},
-		[searchParams],
-	);
-
-	const debouncedSearch = DebounceUtility(searchValue, 1500);
-
-	const handleInputChange = (
-		event: React.ChangeEvent<HTMLInputElement>,
-	) => {
-		setSearchValue(event.target.value);
-		if (event.target.value.length === 0) {
-			router.push("/products");
+	const handleSearch = (searchTearms: string) => {
+		console.log(searchTearms);
+		const params = new URLSearchParams(searchParams);
+		if (searchTearms) {
+			params.set("query", searchTearms);
+		} else {
+			params.delete("query");
 		}
+
+		const url =
+			searchTearms !== ""
+				? `/search?${params.toString()}`
+				: "/products";
+		router.replace(url as Route);
 	};
 
-useEffect(() => {
-    if (debouncedSearch) {
-        const currentPath = `/search?query=${debouncedSearch}`;
-        if (
-            window.location.pathname + window.location.search !==
-            currentPath
-        ) {
-            router.push(currentPath as Route);
-        }
-    }
-}, [debouncedSearch, router]);
+	const debounced = useDebounceCallback(handleSearch, 500);
 
 	return (
-		<div className="flex items-center justify-center gap-2 rounded-md border bg-white">
-			<Link
-				href={
-					(`/search` +
-						"?" +
-						createQueryString("query", searchValue)) as Route
-				}
-				className="flex h-full w-[40px] cursor-pointer items-center justify-center border-r bg-white"
+		<Suspense>
+			<div
+				data-testid="search-navbar"
+				className="flex items-center justify-between bg-white p-4"
 			>
-				<SearchIcon color="gray" size={16} />
-			</Link>
-			<input
-				className="w-42 rounded-md p-1 text-sm outline-none"
-				type="search"
-				placeholder="Search..."
-				value={searchValue}
-				onChange={handleInputChange}
-			/>
-		</div>
+				<div className="relative flex items-center">
+					<SearchIcon className="h4 absolute left-3 top-2 w-4 text-gray-400" />
+					<input
+						data-testid="search-navbar-input"
+						type="text"
+						placeholder="Search"
+						className="w-64 rounded border border-gray-300 p-2 pl-10"
+						onChange={(e) => {
+							debounced(e.target.value);
+						}}
+					/>
+				</div>
+			</div>
+		</Suspense>
 	);
 };
