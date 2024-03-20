@@ -17,7 +17,7 @@ export default async function og({
 }) {
 	const data = await getProductById(params.id);
 
-	if (!data.product)
+	if (!data || !data.product)
 		return new ImageResponse(<div>Product not found.</div>);
 
 	return new ImageResponse(

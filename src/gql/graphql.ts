@@ -1,4 +1,5 @@
 /* eslint-disable */
+import type { DocumentTypeDecoration } from '@graphql-typed-document-node/core';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -273,6 +274,76 @@ export type SortDirection =
   | 'ASC'
   | 'DESC';
 
+export type CategoriesGetListQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CategoriesGetListQuery = { categories: { data: Array<{ id: string, name: string, description: string, slug: string }>, meta: { total: number, count: number } } };
+
+export type CategoriesGetNamesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CategoriesGetNamesQuery = { categories: { data: Array<{ name: string, slug: string }> } };
+
+export type CategoriesListItemFragment = { id: string, name: string, description: string, slug: string };
+
+export type CategoryGetItemQueryVariables = Exact<{
+  slug: Scalars['String']['input'];
+}>;
+
+
+export type CategoryGetItemQuery = { category?: { id: string, name: string, description: string, slug: string, products: Array<{ id: string, name: string, price: number, description: string, rating?: number | null, images: Array<{ url: string }>, categories: Array<{ name: string }> }> } | null };
+
+export type CollectionGetItemQueryVariables = Exact<{
+  slug: Scalars['String']['input'];
+}>;
+
+
+export type CollectionGetItemQuery = { collection?: { description: string, id: string, name: string, slug: string, products: Array<{ id: string, name: string, price: number, description: string, rating?: number | null, images: Array<{ url: string }>, categories: Array<{ name: string }> }> } | null };
+
+export type CollectionsGetListQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CollectionsGetListQuery = { collections: { data: Array<{ description: string, id: string, name: string, slug: string }> } };
+
+export type CollectionGetNamesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CollectionGetNamesQuery = { collections: { data: Array<{ name: string, slug: string }> } };
+
+export type CollectionListItemFragment = { description: string, id: string, name: string, slug: string };
+
+export type ProductGetItemByIdQueryVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type ProductGetItemByIdQuery = { product?: { id: string, name: string, price: number, description: string, rating?: number | null, images: Array<{ url: string }>, categories: Array<{ name: string }> } | null };
+
+export type ProductGetSearchItemsQueryVariables = Exact<{
+  search: Scalars['String']['input'];
+}>;
+
+
+export type ProductGetSearchItemsQuery = { products: { data: Array<{ id: string, name: string, price: number, description: string, rating?: number | null, images: Array<{ url: string }>, categories: Array<{ name: string }> }>, meta: { total: number, count: number } } };
+
+export type ProductsListCountFragment = { meta: { total: number, count: number } };
+
+export type ProductsListItemFragment = { id: string, name: string, price: number, description: string, rating?: number | null, images: Array<{ url: string }>, categories: Array<{ name: string }> };
+
+export type ProductsGetListQueryVariables = Exact<{
+  take: Scalars['Int']['input'];
+  skip: Scalars['Int']['input'];
+  search?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type ProductsGetListQuery = { products: { data: Array<{ id: string, name: string, price: number, description: string, rating?: number | null, images: Array<{ url: string }>, categories: Array<{ name: string }> }>, meta: { total: number, count: number } } };
+
+export type RelatedProductsListQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type RelatedProductsListQuery = { products: { data: Array<{ id: string, name: string, price: number, description: string, rating?: number | null, images: Array<{ url: string }>, categories: Array<{ name: string }> }>, meta: { total: number, count: number } } };
+
 export class TypedDocumentString<TResult, TVariables>
   extends String
   implements DocumentTypeDecoration<TResult, TVariables>
@@ -287,3 +358,253 @@ export class TypedDocumentString<TResult, TVariables>
     return this.value;
   }
 }
+export const CategoriesListItemFragmentDoc = new TypedDocumentString(`
+    fragment CategoriesListItem on Category {
+  id
+  name
+  description
+  slug
+}
+    `, {"fragmentName":"CategoriesListItem"}) as unknown as TypedDocumentString<CategoriesListItemFragment, unknown>;
+export const CollectionListItemFragmentDoc = new TypedDocumentString(`
+    fragment CollectionListItem on Collection {
+  description
+  id
+  name
+  slug
+}
+    `, {"fragmentName":"CollectionListItem"}) as unknown as TypedDocumentString<CollectionListItemFragment, unknown>;
+export const ProductsListCountFragmentDoc = new TypedDocumentString(`
+    fragment ProductsListCount on ProductList {
+  meta {
+    total
+    count
+  }
+}
+    `, {"fragmentName":"ProductsListCount"}) as unknown as TypedDocumentString<ProductsListCountFragment, unknown>;
+export const ProductsListItemFragmentDoc = new TypedDocumentString(`
+    fragment ProductsListItem on Product {
+  id
+  name
+  price
+  description
+  rating
+  images {
+    url
+  }
+  categories {
+    name
+  }
+}
+    `, {"fragmentName":"ProductsListItem"}) as unknown as TypedDocumentString<ProductsListItemFragment, unknown>;
+export const CategoriesGetListDocument = new TypedDocumentString(`
+    query CategoriesGetList {
+  categories {
+    data {
+      ...CategoriesListItem
+    }
+    meta {
+      total
+      count
+    }
+  }
+}
+    fragment CategoriesListItem on Category {
+  id
+  name
+  description
+  slug
+}`) as unknown as TypedDocumentString<CategoriesGetListQuery, CategoriesGetListQueryVariables>;
+export const CategoriesGetNamesDocument = new TypedDocumentString(`
+    query CategoriesGetNames {
+  categories {
+    data {
+      name
+      slug
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CategoriesGetNamesQuery, CategoriesGetNamesQueryVariables>;
+export const CategoryGetItemDocument = new TypedDocumentString(`
+    query CategoryGetItem($slug: String!) {
+  category(slug: $slug) {
+    ...CategoriesListItem
+    products {
+      ...ProductsListItem
+    }
+  }
+}
+    fragment CategoriesListItem on Category {
+  id
+  name
+  description
+  slug
+}
+fragment ProductsListItem on Product {
+  id
+  name
+  price
+  description
+  rating
+  images {
+    url
+  }
+  categories {
+    name
+  }
+}`) as unknown as TypedDocumentString<CategoryGetItemQuery, CategoryGetItemQueryVariables>;
+export const CollectionGetItemDocument = new TypedDocumentString(`
+    query CollectionGetItem($slug: String!) {
+  collection(slug: $slug) {
+    ...CollectionListItem
+    products {
+      ...ProductsListItem
+    }
+  }
+}
+    fragment CollectionListItem on Collection {
+  description
+  id
+  name
+  slug
+}
+fragment ProductsListItem on Product {
+  id
+  name
+  price
+  description
+  rating
+  images {
+    url
+  }
+  categories {
+    name
+  }
+}`) as unknown as TypedDocumentString<CollectionGetItemQuery, CollectionGetItemQueryVariables>;
+export const CollectionsGetListDocument = new TypedDocumentString(`
+    query CollectionsGetList {
+  collections(take: 4) {
+    data {
+      ...CollectionListItem
+    }
+  }
+}
+    fragment CollectionListItem on Collection {
+  description
+  id
+  name
+  slug
+}`) as unknown as TypedDocumentString<CollectionsGetListQuery, CollectionsGetListQueryVariables>;
+export const CollectionGetNamesDocument = new TypedDocumentString(`
+    query CollectionGetNames {
+  collections {
+    data {
+      name
+      slug
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CollectionGetNamesQuery, CollectionGetNamesQueryVariables>;
+export const ProductGetItemByIdDocument = new TypedDocumentString(`
+    query ProductGetItemById($id: ID!) {
+  product(id: $id) {
+    ...ProductsListItem
+  }
+}
+    fragment ProductsListItem on Product {
+  id
+  name
+  price
+  description
+  rating
+  images {
+    url
+  }
+  categories {
+    name
+  }
+}`) as unknown as TypedDocumentString<ProductGetItemByIdQuery, ProductGetItemByIdQueryVariables>;
+export const ProductGetSearchItemsDocument = new TypedDocumentString(`
+    query ProductGetSearchItems($search: String!) {
+  products(search: $search) {
+    data {
+      ...ProductsListItem
+    }
+    ...ProductsListCount
+  }
+}
+    fragment ProductsListCount on ProductList {
+  meta {
+    total
+    count
+  }
+}
+fragment ProductsListItem on Product {
+  id
+  name
+  price
+  description
+  rating
+  images {
+    url
+  }
+  categories {
+    name
+  }
+}`) as unknown as TypedDocumentString<ProductGetSearchItemsQuery, ProductGetSearchItemsQueryVariables>;
+export const ProductsGetListDocument = new TypedDocumentString(`
+    query ProductsGetList($take: Int!, $skip: Int!, $search: String) {
+  products(take: $take, skip: $skip, search: $search) {
+    data {
+      ...ProductsListItem
+    }
+    ...ProductsListCount
+  }
+}
+    fragment ProductsListCount on ProductList {
+  meta {
+    total
+    count
+  }
+}
+fragment ProductsListItem on Product {
+  id
+  name
+  price
+  description
+  rating
+  images {
+    url
+  }
+  categories {
+    name
+  }
+}`) as unknown as TypedDocumentString<ProductsGetListQuery, ProductsGetListQueryVariables>;
+export const RelatedProductsListDocument = new TypedDocumentString(`
+    query RelatedProductsList {
+  products {
+    data {
+      ...ProductsListItem
+    }
+    ...ProductsListCount
+  }
+}
+    fragment ProductsListCount on ProductList {
+  meta {
+    total
+    count
+  }
+}
+fragment ProductsListItem on Product {
+  id
+  name
+  price
+  description
+  rating
+  images {
+    url
+  }
+  categories {
+    name
+  }
+}`) as unknown as TypedDocumentString<RelatedProductsListQuery, RelatedProductsListQueryVariables>;

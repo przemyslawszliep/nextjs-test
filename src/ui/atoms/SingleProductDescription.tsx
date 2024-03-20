@@ -11,7 +11,7 @@ export const SingleProductDescription = ({
 	return (
 		<div className="flex w-full flex-col items-start gap-1 text-black">
 			<p>
-				Category: <strong>{categories?.[0]?.name}</strong>
+				Category: <strong>{categories?.[0]?.name ?? ''}</strong>
 			</p>
 			<p className="ml-auto text-right text-xl font-semibold">
 				{formatMoney(price / 100)}

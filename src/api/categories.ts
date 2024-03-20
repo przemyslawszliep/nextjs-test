@@ -40,6 +40,5 @@ export const getProductsCategoriesNames = async (): Promise<
 		CategoriesGetNamesDocument,
 	);
 
-
 	return graphqlResponse.categories;
 };
