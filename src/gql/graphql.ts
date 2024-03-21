@@ -376,6 +376,8 @@ export type ProductsGetListQueryVariables = Exact<{
   take: Scalars['Int']['input'];
   skip: Scalars['Int']['input'];
   search?: InputMaybe<Scalars['String']['input']>;
+  order?: InputMaybe<SortDirection>;
+  orderBy?: InputMaybe<ProductSortBy>;
 }>;
 
 
@@ -713,8 +715,14 @@ fragment ProductsListItem on Product {
   }
 }`) as unknown as TypedDocumentString<ProductGetSearchItemsQuery, ProductGetSearchItemsQueryVariables>;
 export const ProductsGetListDocument = new TypedDocumentString(`
-    query ProductsGetList($take: Int!, $skip: Int!, $search: String) {
-  products(take: $take, skip: $skip, search: $search) {
+    query ProductsGetList($take: Int!, $skip: Int!, $search: String, $order: SortDirection, $orderBy: ProductSortBy) {
+  products(
+    take: $take
+    skip: $skip
+    search: $search
+    order: $order
+    orderBy: $orderBy
+  ) {
     data {
       ...ProductsListItem
     }

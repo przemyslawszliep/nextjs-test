@@ -4,17 +4,29 @@ import {
 	type ProductsListItemFragment,
 	RelatedProductsListDocument,
 	ProductGetSearchItemsDocument,
+	type SortDirection,
+	type ProductSortBy,
 } from "@/gql/graphql";
 import { executeGraphQL } from "@/utils/graphql";
 
 loadEnvConfig(process.cwd());
 
-export const getProductsList = async (take: number, skip: number) => {
+export const getProductsList = async (
+	take: number,
+	skip: number,
+	order?: SortDirection,
+	orderBy?: ProductSortBy,
+) => {
 	const graphqlResponse = await executeGraphQL({
 		query: ProductsGetListDocument,
 		variables: {
 			take,
 			skip,
+			order,
+			orderBy,
+		},
+		next: {
+			revalidate: 15,
 		},
 	});
 
@@ -24,7 +36,6 @@ export const getProductsList = async (take: number, skip: number) => {
 
 	return graphqlResponse.products;
 };
-
 export const getRelatedProducts = async (
 	product: ProductsListItemFragment,
 ) => {

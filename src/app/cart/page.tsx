@@ -22,7 +22,7 @@ export default async function CartPage() {
 				<article className="flex w-full flex-col">
 					<CartProducts cart={cart} isDescription />
 				</article>
-				<aside className="sticky top-4 flex w-2/6 w-full flex-col rounded-md bg-slate-100 p-4 shadow-md">
+				<aside className="sticky top-4 flex w-2/6 flex-col rounded-md bg-slate-100 p-4 shadow-md">
 					<div className="flex items-center justify-between font-semibold">
 						<p>Total:</p>
 						<span>{formatMoney(total / 100)}</span>
