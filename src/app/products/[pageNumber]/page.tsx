@@ -1,5 +1,4 @@
 import { notFound } from "next/navigation";
-import { type Metadata } from "next";
 import { Suspense } from "react";
 import { getProductsList } from "@/api/products";
 import { ProductList } from "@/ui/organisms/ProductList";
@@ -16,26 +15,6 @@ type ProductsPageProps = {
 	searchParams: {
 		sort: string;
 	};
-};
-
-export async function generateStaticParams() {
-	const products = await getProductsList(8, 0);
-	const totalPages = Math.ceil(products.data.length / 8);
-	const paths = Array.from(
-		{ length: totalPages },
-		(_, i) => i + 1,
-	).map((page) => ({
-		params: { page: [String(page)] },
-	}));
-	return paths;
-}
-export const metadata: Metadata = {
-	title: "Products",
-	description: "List of all products",
-	openGraph: {
-		title: "Products",
-		description: "List of all products",
-	},
 };
 
 export default async function ProductsPage({
