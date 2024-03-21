@@ -10,13 +10,13 @@ import { executeGraphQL } from "@/utils/graphql";
 loadEnvConfig(process.cwd());
 
 export const getProductsList = async (take: number, skip: number) => {
-	const graphqlResponse = await executeGraphQL(
-		ProductsGetListDocument,
-		{
+	const graphqlResponse = await executeGraphQL({
+		query: ProductsGetListDocument,
+		variables: {
 			take,
 			skip,
 		},
-	);
+	});
 
 	if (!graphqlResponse) {
 		throw new Error("Failed to fetch products");
@@ -30,9 +30,9 @@ export const getRelatedProducts = async (
 ) => {
 	if (!product) return;
 
-	const graphqlResponse = await executeGraphQL(
-		RelatedProductsListDocument,
-	);
+	const graphqlResponse = await executeGraphQL({
+		query: RelatedProductsListDocument,
+	});
 
 	if (!graphqlResponse) {
 		throw new Error("Failed to fetch related products");
@@ -50,12 +50,12 @@ export const getRelatedProducts = async (
 };
 
 export const getSearchProducts = async (search: string) => {
-	const graphqlResponse = await executeGraphQL(
-		ProductGetSearchItemsDocument,
-		{
+	const graphqlResponse = await executeGraphQL({
+		query: ProductGetSearchItemsDocument,
+		variables: {
 			search,
 		},
-	);
+	});
 
 	if (!graphqlResponse) {
 		throw new Error("Failed to fetch products");

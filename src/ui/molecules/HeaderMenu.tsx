@@ -13,7 +13,7 @@ export const HeaderMenu = async () => {
 	const categoryLinks = categoriesNames.data.map((item) => {
 		return {
 			name: item.name,
-			href: `/categories/${item.slug}`,
+			href: `/categories/${item.slug}/1`,
 			exact: false,
 		};
 	});
@@ -34,7 +34,10 @@ export const HeaderMenu = async () => {
 	];
 
 	return (
-		<nav role="navigation" className="flex justify-center gap-2">
+		<nav
+			role="navigation"
+			className="ml-auto flex justify-center gap-2"
+		>
 			{navigationLinks.map((link) => (
 				<ActiveLink
 					exact={link.name === "Home"}
