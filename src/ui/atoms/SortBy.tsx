@@ -67,7 +67,7 @@ export const SortBy = () => {
 
 	return (
 		<select
-			className="cursor-pointer rounded-md border px-2 py-1 text-sm font-light outline outline-2 outline-slate-400 lg:mt-1"
+			className="cursor-pointer rounded-md border px-2 py-1 text-sm font-light outline outline-2 outline-slate lg:mt-1"
 			value={selectedOption}
 			onChange={handleSelectChange}
 		>

@@ -19,17 +19,16 @@ type ProductsPageProps = {
 };
 
 export async function generateStaticParams() {
-	const products = await getProductsList(40, 0);
+	const products = await getProductsList(8, 0);
 	const totalPages = Math.ceil(products.data.length / 8);
 	const paths = Array.from(
 		{ length: totalPages },
 		(_, i) => i + 1,
-	).map((pageNumber) => ({
-		params: { pageNumber: [String(pageNumber)] },
+	).map((page) => ({
+		params: { page: [String(page)] },
 	}));
 	return paths;
 }
-
 export const metadata: Metadata = {
 	title: "Products",
 	description: "List of all products",
