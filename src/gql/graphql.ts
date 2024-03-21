@@ -398,16 +398,14 @@ export type ReviewAddMutationVariables = Exact<{
 
 export type ReviewAddMutation = { reviewCreate: { id: string } };
 
-export type ReviewProductFragment = {
-    createdAt: string; author: string, description: string, id: string, rating: number, title: string, email: string 
-};
+export type ReviewProductFragment = { author: string, createdAt: unknown, description: string, id: string, rating: number, title: string, email: string };
 
 export type ReviewProductsQueryVariables = Exact<{
   productId: Scalars['ID']['input'];
 }>;
 
 
-export type ReviewProductsQuery = { product?: { reviews: Array<{ author: string, description: string, id: string, rating: number, title: string, email: string }> } | null };
+export type ReviewProductsQuery = { product?: { reviews: Array<{ author: string, createdAt: unknown, description: string, id: string, rating: number, title: string, email: string }> } | null };
 
 export class TypedDocumentString<TResult, TVariables>
   extends String
@@ -483,6 +481,7 @@ export const ProductsListItemFragmentDoc = new TypedDocumentString(`
 export const ReviewProductFragmentDoc = new TypedDocumentString(`
     fragment ReviewProduct on Review {
   author
+  createdAt
   description
   id
   rating
@@ -793,6 +792,7 @@ export const ReviewProductsDocument = new TypedDocumentString(`
 }
     fragment ReviewProduct on Review {
   author
+  createdAt
   description
   id
   rating
