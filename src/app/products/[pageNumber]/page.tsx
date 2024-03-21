@@ -1,8 +1,10 @@
 import { notFound } from "next/navigation";
 import { type Metadata } from "next";
+import { Suspense } from "react";
 import { getProductsList } from "@/api/products";
 import { ProductList } from "@/ui/organisms/ProductList";
 import { Pagination } from "@/ui/molecules/Pagination";
+import { Loader } from "@/ui/atoms/Loader";
 
 type ProductsPageProps = {
 	params: {
@@ -46,7 +48,9 @@ export default async function ProductsPage({
 
 	return (
 		<section>
-			<ProductList products={products.data || []} />
+			<Suspense fallback={<Loader />}>
+				<ProductList products={products.data || []} />
+			</Suspense>
 			<Pagination
 				url="/products"
 				pageNumber={
