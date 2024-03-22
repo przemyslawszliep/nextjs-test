@@ -1,5 +1,6 @@
 import { getProductsList } from "@/api/products";
 import { SortBy } from "@/ui/atoms/SortBy";
+import { TitleSection } from "@/ui/atoms/TitleSection";
 import { Pagination } from "@/ui/molecules/Pagination";
 
 import { ProductList } from "@/ui/organisms/ProductList";
@@ -48,6 +49,7 @@ export default async function ProductsPage({
 
 	return (
 		<div>
+			<TitleSection titleText="All products" />
 			<SortBy />
 			<ProductList products={products.data} />
 			<Pagination

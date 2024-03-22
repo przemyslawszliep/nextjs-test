@@ -11,7 +11,7 @@ export const CounterCart = async () => {
 		cart?.items.reduce((acc, item) => acc + item.quantity, 0) || 0;
 
 	return (
-		<ActiveLink className="relative" activeClassName="" href="/cart">
+		<ActiveLink className="relative" href="/cart">
 			<ShoppingCart size={24} color="black" />
 			<Suspense key="headerQuantity" fallback={<Loader />}>
 				<div className="absolute -right-4 -top-2">

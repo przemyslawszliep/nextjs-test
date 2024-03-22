@@ -26,16 +26,27 @@ export const SortBy = () => {
 	};
 
 	return (
-		<select value={sortBy} onChange={handleChange}>
-			<option data-testid="sort-by-price" value={"price-asc"}>
-				price ascending
-			</option>
-			<option value={"price-desc"}>price descending</option>
-			<option data-testid="sort-by-rating" value={"rat-asc"}>
-				rating ascending
-			</option>
-			<option value={"rat-desc"}>rating descending</option>
-			<option value={"no-sort"}>no filter</option>
-		</select>
+		<div className="my-12 flex justify-end">
+			<select
+				value={sortBy}
+				onChange={handleChange}
+				className="rounded-md border border-slate-400 px-4 py-2"
+			>
+				<option data-testid="sory-by-price" value={"price-desc"}>
+					price descending
+				</option>
+				<option data-testid="sort-by-price" value={"price-asc"}>
+					price ascending
+				</option>
+				<option data-testid="sort-by-rating" value={"rat-desc"}>
+					rating descending
+				</option>
+				<option data-testid="sort-by-rating" value={"rat-asc"}>
+					rating ascending
+				</option>
+
+				<option value={"no-sort"}>no filter</option>
+			</select>
+		</div>
 	);
 };

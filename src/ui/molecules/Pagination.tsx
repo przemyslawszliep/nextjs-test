@@ -18,16 +18,14 @@ export function Pagination({
 	);
 
 	return (
-		<nav aria-label="pagination" className="mt-8 flex justify-center items-center">
+		<nav aria-label="pagination" className="mt-8 flex justify-center items-center gap-4">
 			{pageNumbers.map((pageNumber) => (
 				<ActiveLink
-					className=""
 					key={pageNumber}
 					aria-label={`pagination - ${pageNumber}`}
 					href={
 						`/${linkTo}/${pageNumber}${queryParams ? `?${queryParams}` : ""}` as Route
 					}
-					activeClassName="active"
 					exact={false}
 				>
 					{pageNumber}
