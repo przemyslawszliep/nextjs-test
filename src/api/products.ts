@@ -1,5 +1,6 @@
 import { loadEnvConfig } from "@next/env";
 import {
+	type InputMaybe,
 	ProductsGetListDocument,
 	type ProductsListItemFragment,
 	RelatedProductsListDocument,
@@ -14,8 +15,8 @@ loadEnvConfig(process.cwd());
 export const getProductsList = async (
 	take: number,
 	skip: number,
-	order?: SortDirection,
-	orderBy?: ProductSortBy,
+	order: InputMaybe<SortDirection> | undefined = undefined,
+	orderBy: InputMaybe<ProductSortBy> | undefined = undefined,
 ) => {
 	const graphqlResponse = await executeGraphQL({
 		query: ProductsGetListDocument,
@@ -24,9 +25,6 @@ export const getProductsList = async (
 			skip,
 			order,
 			orderBy,
-		},
-		next: {
-			revalidate: 15,
 		},
 	});
 

@@ -1,4 +1,3 @@
-import { type Route } from "next";
 import { getCategoryProductsBySlug } from "@/api/categories";
 import { Pagination } from "@/ui/molecules/Pagination";
 import { ProductList } from "@/ui/organisms/ProductList";
@@ -53,9 +52,8 @@ export default async function CategoriesNamePage({
 			</div>
 			<ProductList products={slicedProducts} />
 			<Pagination
-				pageNumber={pageNumber}
 				totalPages={totalPages}
-				url={`/categories/${params.name}` as Route}
+				linkTo={`categories/${params.name}`}
 			/>
 		</section>
 	);

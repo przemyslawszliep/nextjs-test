@@ -1,95 +1,41 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
-import Link from "next/link";
-import { type Route } from "next";
-import { Debouncer } from "@/utils/debouncer";
-
-const options = [
-	{
-		value: "rating",
-		label: "Rating (High to Low)",
-		"data-testid": "sort-by-rating",
-	},
-	{
-		value: "-rating",
-		label: "Rating (Low to High)",
-		"data-testid": "sort-by-rating",
-	},
-	{
-		value: "price",
-		label: "Price (Low to High)",
-		"data-testid": "sort-by-price",
-	},
-	{
-		value: "-price",
-		label: "Price (High to Low)",
-		"data-testid": "sort-by-price",
-	},
-	{ value: "name", label: "Name (A to Z)" },
-	{ value: "-name", label: "Name (Z to A)" },
-];
+import { type ChangeEvent, useState } from "react";
 
 export const SortBy = () => {
-	const router = useRouter();
 	const searchParams = useSearchParams();
-	const urlQueryParamValue = searchParams.get("sort")?.toString();
-
-	const [selectedOption, setSelectedOption] = useState<string>(
-		urlQueryParamValue || "",
-	);
-
-	const createQueryString = useCallback(
-		(params: Record<string, string>) => {
-			const searchParams = new URLSearchParams();
-			Object.entries(params).forEach(([name, value]) => {
-				searchParams.append(name, value);
-			});
-			return searchParams.toString();
-		},
-		[],
-	);
-
-	const debouncedValue = Debouncer(selectedOption, 1500);
-
-	const handleSelectChange = (
-		event: React.ChangeEvent<HTMLSelectElement>,
-	) => {
-		setSelectedOption(event.target.value);
+	const getSortByInitialValue = () => {
+		if (!searchParams.get("sortBy")) {
+			return "no-sort";
+		}
+		return searchParams.get("sortBy") || "no-sort";
 	};
 
-	useEffect(() => {
-		if (debouncedValue) {
-			router.push(`/products?sort=${debouncedValue}`);
+	const [sortBy, setSortBy] = useState(getSortByInitialValue());
+
+	const router = useRouter();
+
+	const handleChange = async (e: ChangeEvent<HTMLSelectElement>) => {
+		setSortBy(e.target.value);
+		if (e.target.value === "no-sort") {
+			router.push(`/products/1`);
+		} else {
+			router.push(`/products/1?sortBy=${e.target.value}`);
 		}
-	}, [debouncedValue, router, selectedOption]);
+	};
 
 	return (
-		<select
-			className="cursor-pointer rounded-md border px-2 py-1 text-sm font-light outline outline-2 outline-slate lg:mt-1"
-			value={selectedOption}
-			onChange={handleSelectChange}
-		>
-			{options.map((option) => (
-				<option
-					key={option.value}
-					data-testid={option["data-testid"]}
-					value={option.value}
-				>
-					<Link
-						href={
-							(`/products` +
-								"?" +
-								createQueryString({
-									sort: option.value,
-								})) as Route
-						}
-					>
-						{option.label}
-					</Link>
-				</option>
-			))}
+		<select value={sortBy} onChange={handleChange}>
+			<option data-testid="sort-by-price" value={"price-asc"}>
+				price ascending
+			</option>
+			<option value={"price-desc"}>price descending</option>
+			<option data-testid="sort-by-rating" value={"rat-asc"}>
+				rating ascending
+			</option>
+			<option value={"rat-desc"}>rating descending</option>
+			<option value={"no-sort"}>no filter</option>
 		</select>
 	);
 };
